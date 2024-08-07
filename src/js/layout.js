@@ -1,37 +1,30 @@
-import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import ScrollToTop from "./component/scrollToTop";
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import injectContext from '../js/store/appContext';
+import Navbar from './component/navbar';
+import { Footer } from './component/footer';
+import Home from './views/home';
+import FavoritesList from './component/favoritelist';
+import DetailView from './component/detailview';
 
-import { Home } from "./views/home";
-import { Demo } from "./views/demo";
-import { Single } from "./views/single";
-import injectContext from "./store/appContext";
 
-import { Navbar } from "./component/navbar";
-import { Footer } from "./component/footer";
 
-//create your first component
 const Layout = () => {
-	//the basename is used when your project is published in a subdirectory and not in the root of the domain
-	// you can set the basename on the .env file located at the root of this project, E.g: BASENAME=/react-hello-webapp/
-	const basename = process.env.BASENAME || "";
-
-	return (
-		<div>
-			<BrowserRouter basename={basename}>
-				<ScrollToTop>
-					<Navbar />
-					<Routes>
-						<Route path="/" element={<Home />} />
-						<Route path="/demo" element={<Demo />} />
-						<Route path="/single/:theid" element={<Single />} />
-						<Route path="*" element={<h1>Not found!</h1>} />
-					</Routes>
-					<Footer />
-				</ScrollToTop>
-			</BrowserRouter>
-		</div>
-	);
+    return (
+        <Router>
+            <Navbar />
+            <div className="container">
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/characters/:uid" element={<DetailView type="characters" />} />
+                    <Route path="/vehicles/:uid" element={<DetailView type="vehicles" />} />
+                    <Route path="/planets/:uid" element={<DetailView type="planets" />} />
+                    <Route path="/favorites" element={<FavoritesList />} />
+                </Routes>
+            </div>
+            <Footer />
+        </Router>
+    );
 };
 
 export default injectContext(Layout);
